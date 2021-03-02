@@ -12,6 +12,8 @@
 
 #include "../Graphics/ShaderHandler.h"
 
+#include "../Camera/Camera.h"
+
 class CoreEngine {
 public:
 	CoreEngine(const CoreEngine&) = delete;
@@ -27,9 +29,13 @@ public:
 	
 	bool GetIsRunning() const;
 	int GetCurrentScene() const;
+	float GetScreenWidth() const;
+	float GetScreenHeight() const;
+	Camera* GetCamera() const;
 
 	void SetGameInterface(GameInterface* gameInterface_);
 	void SetCurrentScene(int sceneNum_);
+	void SetCamera(Camera* camera_);
 
 private:
 	CoreEngine();
@@ -43,12 +49,15 @@ private:
 	
 	Window* window;
 	bool isRunning;
+
 	Timer* timer;
 	unsigned int fps;
 
 	GameInterface* gameInterface;
 
 	int currentSceneNum;
+
+	Camera* camera;
 };
 
 #endif // !COREENGINE_H
