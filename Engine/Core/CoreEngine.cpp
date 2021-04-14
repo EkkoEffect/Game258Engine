@@ -2,32 +2,44 @@
 
 std::unique_ptr<CoreEngine> CoreEngine::engineInstance = nullptr;
 
-CoreEngine::CoreEngine() :window(nullptr), isRunning(nullptr), fps(60), timer(nullptr), gameInterface(nullptr), currentSceneNum(0) { 
+CoreEngine::CoreEngine() : window(nullptr), isRunning(nullptr), timer(nullptr), fps(60), gameInterface(nullptr), currentSceneNum(0)
+{
 }
 
-CoreEngine::~CoreEngine() {
+CoreEngine::~CoreEngine()
+{
 }
 
-CoreEngine* CoreEngine::GetInstance() {
-	if (engineInstance.get() == nullptr) {
+CoreEngine* CoreEngine::GetInstance()
+{
+	if (engineInstance == nullptr)
+	{
 		engineInstance.reset(new CoreEngine);
 	}
 	return engineInstance.get();
 }
 
-bool CoreEngine::OnCreate(std::string name_, int width_, int height_) {
+bool CoreEngine::OnCreate(std::string name_, int width_, int height_)
+{
 	Debug::OnCreate();
 	window = new Window();
-	if (!window->OnCreate(name_, width_, height_)) {
+	if (!window->OnCreate(name_, width_, height_))
+	{
 		Debug::FatalError("Window failed to initialize", "CoreEngine.cpp", __LINE__);
 		OnDestroy();
 		return isRunning = false;
 	}
 
-	ShaderHandler::GetInstance()->CreateProgram("colourShader", "Engine/Shaders/ColourVertexShader.glsl", "Engine/Shaders/ColourFragmentShader.glsl");
+	ShaderHandler::GetInstance()->CreateProgram("colourShader", "Engine/Shaders/ColourVertexShader.glsl",
+	                                            "Engine/Shaders/ColourFragmentShader.glsl");
 
-	if (gameInterface) {
-		if (!gameInterface->OnCreate()) {
+	ShaderHandler::GetInstance()->CreateProgram("basicShader", "Engine/Shaders/VertexShader.glsl",
+												"Engine/Shaders/FragmentShader.glsl");
+
+	if (gameInterface)
+	{
+		if (!gameInterface->OnCreate())
+		{
 			Debug::FatalError("Game failed to initialize", "CoreEngine.cpp", __LINE__);
 			OnDestroy();
 			return isRunning = false;
@@ -40,72 +52,89 @@ bool CoreEngine::OnCreate(std::string name_, int width_, int height_) {
 	return isRunning = true;
 }
 
-void CoreEngine::Run() {
-	while (isRunning) {
+void CoreEngine::Run()
+{
+	while (isRunning)
+	{
 		timer->UpdateFrameTicks();
 		Update(timer->GetDeltaTime());
 		Render();
 		SDL_Delay(timer->GetSleepTime(fps));
 	}
 	// if (!isRunning) { // if statement not actually needed
-		OnDestroy();
+	OnDestroy();
 	// }
 }
 
-void CoreEngine::Exit() {
+void CoreEngine::Exit()
+{
 	isRunning = false;
 }
 
-bool CoreEngine::GetIsRunning() const {
+bool CoreEngine::GetIsRunning() const
+{
 	return isRunning;
 }
 
-int CoreEngine::GetCurrentScene() const {
+int CoreEngine::GetCurrentScene() const
+{
 	return currentSceneNum;
 }
 
-float CoreEngine::GetScreenWidth() const {
+float CoreEngine::GetScreenWidth() const
+{
 	return static_cast<float>(window->GetWidth());
 }
 
-float CoreEngine::GetScreenHeight() const {
+float CoreEngine::GetScreenHeight() const
+{
 	return static_cast<float>(window->GetHeight());
 }
 
-Camera* CoreEngine::GetCamera() const {
+Camera* CoreEngine::GetCamera() const
+{
 	return camera;
 }
 
-void CoreEngine::SetGameInterface(GameInterface* gameInterface_) {
+void CoreEngine::SetGameInterface(GameInterface* gameInterface_)
+{
 	gameInterface = gameInterface_;
 }
 
-void CoreEngine::SetCurrentScene(int sceneNum_) {
+void CoreEngine::SetCurrentScene(int sceneNum_)
+{
 	currentSceneNum = sceneNum_;
 }
 
-void CoreEngine::SetCamera(Camera* camera_) {
+void CoreEngine::SetCamera(Camera* camera_)
+{
 	camera = camera_;
 }
 
-void CoreEngine::Update(const float deltaTime_) {
-	if (gameInterface) {
+void CoreEngine::Update(const float deltaTime_)
+{
+	if (gameInterface)
+	{
 		gameInterface->Update(deltaTime_);
 		// std::cout << deltaTime_ << std::endl;
 	}
 }
 
-void CoreEngine::Render() {
+void CoreEngine::Render()
+{
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	if (gameInterface) {
+	if (gameInterface)
+	{
 		gameInterface->Render();
 	}
 	SDL_GL_SwapWindow(window->GetWindow());
 }
 
-void CoreEngine::OnDestroy() {
+void CoreEngine::OnDestroy()
+{
 	ShaderHandler::GetInstance()->OnDestroy();
+	TextureHandler::GetInstance()->OnDestroy();
 
 	delete gameInterface;
 	gameInterface = nullptr;

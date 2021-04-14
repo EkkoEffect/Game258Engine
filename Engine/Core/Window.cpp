@@ -1,16 +1,20 @@
 #include "Window.h"
 
-Window::Window() : window(nullptr), context(nullptr) {
+Window::Window() : window(nullptr), context(nullptr)
+{
 	// window = nullptr;
 	// context = nullptr; PICK ONE NOT BOTH ^^^
 }
 
-Window::~Window() {
+Window::~Window()
+{
 	OnDestroy();
 }
 
-bool Window::OnCreate(std::string name_, int width_, int height_) {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+bool Window::OnCreate(std::string name_, int width_, int height_)
+{
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
 		Debug::FatalError("Failed to initialize SDL", "Window.cpp", __LINE__);
 		return false;
 	}
@@ -20,12 +24,14 @@ bool Window::OnCreate(std::string name_, int width_, int height_) {
 	SetPreAttributes();
 
 	window = SDL_CreateWindow(name_.c_str(),
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		width,
-		height,
-		SDL_WINDOW_OPENGL);
-	if (!window) { // or (window == nullptr)
+	                          SDL_WINDOWPOS_CENTERED,
+	                          SDL_WINDOWPOS_CENTERED,
+	                          width,
+	                          height,
+	                          SDL_WINDOW_OPENGL);
+	if (!window)
+	{
+		// or (window == nullptr)
 		Debug::FatalError("Failed to create Window", "Window.cpp", __LINE__);
 		return false;
 	}
@@ -34,7 +40,8 @@ bool Window::OnCreate(std::string name_, int width_, int height_) {
 	SetPostAttributes();
 
 	GLenum err = glewInit();
-	if (err != GLEW_OK) {
+	if (err != GLEW_OK)
+	{
 		Debug::FatalError("Failed to initialize GLEW", "Window.cpp", __LINE__);
 	}
 	std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
@@ -44,25 +51,30 @@ bool Window::OnCreate(std::string name_, int width_, int height_) {
 	return true;
 }
 
-void Window::OnDestroy() {
+void Window::OnDestroy()
+{
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(window);
 	window = nullptr;
 }
 
-int Window::GetWidth() const {
+int Window::GetWidth() const
+{
 	return width;
 }
 
-int Window::GetHeight() const {
+int Window::GetHeight() const
+{
 	return height;
 }
 
-SDL_Window* Window::GetWindow() const {
+SDL_Window* Window::GetWindow() const
+{
 	return window;
 }
 
-void Window::SetPreAttributes() {
+void Window::SetPreAttributes()
+{
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
@@ -71,6 +83,7 @@ void Window::SetPreAttributes() {
 	glewExperimental = GL_TRUE;
 }
 
-void Window::SetPostAttributes() {
+void Window::SetPostAttributes()
+{
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
 }

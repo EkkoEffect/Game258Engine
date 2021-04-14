@@ -1,12 +1,15 @@
 #include "StartScene.h"
 
-StartScene::StartScene() {
+StartScene::StartScene()
+{
 }
 
-StartScene::~StartScene() {
+StartScene::~StartScene()
+{
 }
 
-bool StartScene::OnCreate() {
+bool StartScene::OnCreate()
+{
 	Debug::Info("Creating StartScene", "StartScene.cpp", __LINE__);
 
 	std::cout << "Start Scene" << std::endl;
@@ -14,8 +17,10 @@ bool StartScene::OnCreate() {
 	return true;
 }
 
-void StartScene::Update(const float deltaTime_) {
+void StartScene::Update(const float deltaTime_)
+{
 }
 
-void StartScene::Render() {
+void StartScene::Render()
+{
 }

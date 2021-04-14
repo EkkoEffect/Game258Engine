@@ -17,7 +17,7 @@ struct Vertex { // Non-Interleaved; All are vec3 EXCEPT textureCoordinate.
 
 class Mesh {
 public:
-	Mesh(std::vector<Vertex>& vertexList_, GLuint shaderProgram_);
+	Mesh(std::vector<Vertex>& vertexList_, GLuint textureID_, GLuint shaderProgram_);
 	~Mesh();
 
 	void Render(Camera* camera_, glm::mat4 transform_);
@@ -27,7 +27,8 @@ private:
 	GLuint VAO, VBO;
 	std::vector<Vertex> vertexList;
 	GLuint shaderProgram;
-	GLuint modelLoc, viewLoc, projectionLoc;
+	GLuint textureID;
+	GLuint modelLoc, viewLoc, projectionLoc, textureLoc = 0;
 };
 
 #endif // !MESH_H
