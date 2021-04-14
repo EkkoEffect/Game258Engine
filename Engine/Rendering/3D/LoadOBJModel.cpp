@@ -88,7 +88,7 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 			std::stringstream v(line.substr(2));
 			float x, y, z;
 			v >> x >> y >> z;
-			vertices.emplace_back(x, y, z);
+			normals.emplace_back(x, y, z);
 		}
 
 		//Texture Data
@@ -97,7 +97,7 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 			std::stringstream v(line.substr(2));
 			float x, y;
 			v >> x >> y;
-			vertices.emplace_back(glm::vec2(x, y));
+			textureCoords.emplace_back(x, y);
 		}
 
 		//Face Values
@@ -108,17 +108,17 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 			char slash;
 			v >> x1 >> slash >> x2 >> slash >> x3 >> y1 >> slash >> y2 >> slash >> y3 >> z1 >> slash >> z2 >> slash >> z3;
 
-			indices.emplace_back(x1 - 1);
-			indices.emplace_back(y1 - 1);
-			indices.emplace_back(z1 - 1);
+			indices.push_back(x1 - 1);
+			indices.push_back(y1 - 1);
+			indices.push_back(z1 - 1);
 
-			textureIndices.emplace_back(x2 - 1);
-			textureIndices.emplace_back(y2 - 1);
-			textureIndices.emplace_back(z2 - 1);
+			textureIndices.push_back(x2 - 1);
+			textureIndices.push_back(y2 - 1);
+			textureIndices.push_back(z2 - 1);
 
-			normalIndices.emplace_back(x3 - 1);
-			normalIndices.emplace_back(y3 - 1);
-			normalIndices.emplace_back(z3 - 1);
+			normalIndices.push_back(x3 - 1);
+			normalIndices.push_back(y3 - 1);
+			normalIndices.push_back(z3 - 1);
 		}
 
 		//New Mesh
