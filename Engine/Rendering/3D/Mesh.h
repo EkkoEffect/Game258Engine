@@ -7,19 +7,19 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "../../Camera/Camera.h"
+#include "../../Graphics/MaterialHandler.h"
 
 struct Vertex { // Non-Interleaved; All are vec3 EXCEPT textureCoordinate.
 	glm::vec3 position;
 	glm::vec3 normal;
 	glm::vec2 textureCoordinates;
-	glm::vec3 colour; // Will be removed later down the line; RGB
 };
 
 struct SubMesh
 {
 	std::vector<Vertex> vertexList;
 	std::vector<unsigned int> meshIndices;
-	GLuint textureID;
+	Material material;
 };
 
 class Mesh {
