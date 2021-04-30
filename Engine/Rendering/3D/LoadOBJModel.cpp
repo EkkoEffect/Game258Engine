@@ -85,12 +85,36 @@ void LoadOBJModel::LoadModel(const std::string& filePath_)
 			float x, y, z;
 			v >> x >> y >> z;
 			vertices.emplace_back(x, y, z);
-			/*boundingBox.maxVert.x = x;
-			boundingBox.maxVert.y = y;
-			boundingBox.maxVert.z = z;
-			boundingBox.minVert.x = x;
-			boundingBox.minVert.y = y;
-			boundingBox.minVert.z = z;*/
+
+			if (x > boundingBox.maxVert.x)
+			{
+				boundingBox.maxVert.x = x;
+			}
+
+			if (x < boundingBox.minVert.x)
+			{
+				boundingBox.minVert.x = x;
+			}
+
+			if (y > boundingBox.maxVert.y)
+			{
+				boundingBox.maxVert.y = y;
+			}
+
+			if (y < boundingBox.minVert.y)
+			{
+				boundingBox.minVert.y = y;
+			}
+
+			if (z > boundingBox.maxVert.z)
+			{
+				boundingBox.maxVert.z = z;
+			}
+
+			if (z < boundingBox.minVert.z)
+			{
+				boundingBox.minVert.z = z;
+			}
 		}
 
 		//Normal Data

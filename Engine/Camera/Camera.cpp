@@ -60,6 +60,16 @@ glm::vec3 Camera::GetPosition() const
 	return position;
 }
 
+float Camera::GetNearPlane() const
+{
+	return nearPlane;
+}
+
+float Camera::GetFarPlane() const
+{
+	return farPlane;
+}
+
 void Camera::ProcessMouseMovement(glm::vec2 offset_)
 {
 	offset_ *= 0.05f;
